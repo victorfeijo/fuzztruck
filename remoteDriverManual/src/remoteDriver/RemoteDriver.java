@@ -8,6 +8,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.StringTokenizer;
 
+import net.sourceforge.jFuzzyLogic.FIS;
+
 public class RemoteDriver {
 
   static int port = 4321;
@@ -28,6 +30,7 @@ public class RemoteDriver {
             System.exit(1);
         } catch (IOException e) {
             System.err.println("Couldn't get I/O for the connection to: " + host);
+            e.printStackTrace();
             System.exit(1);
         }
 
@@ -47,7 +50,7 @@ public class RemoteDriver {
 
           System.out.println("x: " + x + " y: " + y + " angle: " + angle);
 
-          /////////////////////////////////////////////////////////////////////////////////////
+
           // TODO sua lógica fuzzy vai aqui use os valores de x,y e angle obtidos. x e y estao em [0,1] e angulo [0,360)
 
           double teste = Double.valueOf(stdIn.readLine());
@@ -62,6 +65,7 @@ public class RemoteDriver {
           out.println("r");
         }
 
+        System.out.println("Close connection");
         out.close();
         in.close();
         stdIn.close();
