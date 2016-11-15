@@ -1,0 +1,58 @@
+FUNCTION_BLOCK driver
+
+VAR_INPUT
+    x     : REAL;
+    y     : REAL;
+    angle : REAL;
+END_VAR
+
+VAR_OUTPUT
+    turn : REAL;
+END_VAR
+
+FUZZIFY x
+    TERM left   := (0, 1) (0.5, 0.5) (1, 0);
+    TERM center := (0, 0) (0.5, 1) (1, 0);
+    TERM right  := (0, 0) (0.5, 0.5) (1, 1);
+END_FUZZIFY
+
+FUZZIFY y
+    TERM top    := (0, 1) (0.5, 0.5) (1, 0);
+    TERM center := (0, 0) (0.5, 1) (1, 0);
+    TERM bottom := (0, 0) (0.5, 0.5) (1, 1);
+END_FUZZIFY
+
+FUZZIFY angle
+    TERM left   := (0, 1) (90, 0);
+    TERM bottom := (0, 0) (90, 1) (180, 0);
+    TERM right  := (90, 0) (180, 1) (270, 0);
+    TERM top    := (180, 0) (270, 0) (360, 0);
+END_FUZZIFY
+
+DEFUZZIFY turn
+    TERM left   := (-1, 1) (0, 0);
+    TERM center := (-1, 0) (0, 1) (1, 0);
+    TERM right  := (0, 0) (1, 1);
+    METHOD      : COG;
+    DEFAULT     := 0;
+END_DEFUZZIFY
+
+RULEBLOCK No1
+    AND  : MIN;
+    ACT  : MIN;
+    ACCU : MAX;
+
+    RULE 1 : IF x IS left AND angle IS bottom THEN turn IS right;
+    RULE 2 : IF x IS left AND angle IS right THEN turn IS left;
+    RULE 3 : IF x IS left AND angle IS left THEN turn IS right;
+
+    RULE 4 : IF x IS center AND angle IS bottom THEN turn IS center;
+    RULE 5 : IF x IS center AND angle IS right THEN turn IS left;
+    RULE 6 : IF x IS center AND angle IS left THEN turn IS right;
+
+    RULE 7 : IF x is right AND angle IS bottom THEN turn IS left;
+    RULE 8 : IF x is right AND angle IS right THEN turn IS left;
+    RULE 8 : IF x is right AND angle IS left THEN turn IS right;
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

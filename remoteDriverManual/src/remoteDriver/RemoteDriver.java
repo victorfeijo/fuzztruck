@@ -9,6 +9,8 @@ import java.net.UnknownHostException;
 import java.util.StringTokenizer;
 
 import net.sourceforge.jFuzzyLogic.FIS;
+import net.sourceforge.jFuzzyLogic.rule.Variable;
+import net.sourceforge.jFuzzyLogic.FunctionBlock;
 
 public class RemoteDriver {
 
@@ -40,6 +42,15 @@ public class RemoteDriver {
         double x, y;
         double angle;
 
+        String filename = "remoteDriverManual/src/remoteDriver/driver.fcl";
+        FIS fis = FIS.load(filename, true);
+
+        // Error while loading?
+        if( fis == null ) {
+            System.err.println("Can't load file: '" + filename + "'");
+            return;
+        }
+
         // requisicao da posicao do caminhao
         out.println("r");
         while ((fromServer = in.readLine()) != null) {
@@ -53,7 +64,16 @@ public class RemoteDriver {
 
           // TODO sua lógica fuzzy vai aqui use os valores de x,y e angle obtidos. x e y estao em [0,1] e angulo [0,360)
 
-          double teste = Double.valueOf(stdIn.readLine());
+
+          fis.setVariable("x", x);
+          fis.setVariable("y", y);
+          fis.setVariable("angle", angle);
+
+          fis.evaluate();
+
+          Variable turn = fis.getVariable("turn");
+
+          double teste = turn.getLatestDefuzzifiedValue();
 
           double respostaDaSuaLogica = teste; // atribuir um valor entre -1 e 1 para virar o volante pra esquerda ou direita.
 
