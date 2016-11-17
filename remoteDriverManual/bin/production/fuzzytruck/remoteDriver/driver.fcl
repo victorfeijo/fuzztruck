@@ -11,22 +11,24 @@ VAR_OUTPUT
 END_VAR
 
 FUZZIFY x
-    TERM left   := (0, 1) (0.5, 0);
-    TERM center := (0.25, 0) (0.5, 1) (0.75, 0);
-    TERM right  := (0.5, 0) (1, 1);
+    TERM left   := (0, 1) (0.15, 1) (0.5, 0);
+    TERM center := (0.25, 0) (0.40, 1) (0.60, 1) (0.75, 0);
+    TERM right  := (0.5, 0) (0.85, 1) (1, 1);
 END_FUZZIFY
 
 FUZZIFY y
     TERM top    := (0, 1) (0.5, 0.5) (1, 0);
-    TERM center := (0, 0) (0.5, 1) (1, 0);
     TERM bottom := (0, 0) (0.5, 0.5) (1, 1);
 END_FUZZIFY
 
 FUZZIFY angle
-    TERM left   := (0, 1) (90, 0);
-    TERM bottom := (0, 0) (90, 1) (180, 0);
-    TERM right  := (90, 0) (180, 1) (270, 0);
-    TERM top    := (180, 0) (270, 1) (360, 0);
+    TERM left         := (0, 1) (90, 0);
+    TERM bottom       := (45, 0) (90, 1) (135, 0);
+    TERM middle       := (89, 0) (90, 1) (91, 0);
+    TERM bottom_left  := (0, 0) (45, 1) (90, 0);
+    TERM bottom_right := (90, 0) (135, 1) (180, 0);
+    TERM right        := (100, 0) (180, 1) (270, 0);
+    TERM top          := (180, 0) (270, 1) (360, 0);
 END_FUZZIFY
 
 DEFUZZIFY turn
@@ -43,17 +45,25 @@ RULEBLOCK No1
     ACCU : MAX;
 
     RULE 1 : IF x IS left AND angle IS bottom THEN turn IS right;
-    RULE 2 : IF x IS left AND angle IS right THEN turn IS left;
-    RULE 3 : IF x IS left AND angle IS left THEN turn IS right;
-    RULE 3 : IF x IS left AND angle IS top THEN turn IS left;
+    RULE 2 : IF x IS left AND angle IS bottom_left THEN turn IS right;
+    RULE 6 : IF x IS left AND angle IS top THEN turn IS left;
 
-    RULE 4 : IF x IS center AND angle IS bottom THEN turn IS center;
-    RULE 5 : IF x IS center AND angle IS right THEN turn IS left;
-    RULE 6 : IF x IS center AND angle IS left THEN turn IS right;
+    RULE 8 : IF x IS center AND angle IS bottom_left THEN turn IS right;
+    RULE 9 : IF x IS center AND angle IS bottom_right THEN turn IS left;
+    RULE 9 : IF x IS center AND angle IS middle THEN turn IS center;
+    RULE 10 : IF x IS center AND angle IS right THEN turn IS left;
+    RULE 11 : IF x IS center AND angle IS left THEN turn IS right;
 
-    RULE 7 : IF x is right AND angle IS bottom THEN turn IS left;
-    RULE 8 : IF x is right AND angle IS right THEN turn IS left;
-    RULE 8 : IF x is right AND angle IS left THEN turn IS right;
+    RULE 12 : IF x is right AND angle IS bottom THEN turn IS left;
+    RULE 14 : IF x is right AND angle IS bottom_right THEN turn IS left;
+    RULE 28 : IF x is right AND angle IS top THEN turn IS right;
+
+    RULE 17 : IF y is bottom AND x IS center AND angle IS bottom_left THEN turn IS right;
+    RULE 19 : IF y is bottom AND x IS center AND angle IS bottom_right THEN turn IS left;
+
+    RULE 32 : IF y is top AND x IS center AND angle IS left THEN turn IS right;
+    RULE 33 : IF y is top AND x IS center AND angle IS right THEN turn IS left;
+
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK

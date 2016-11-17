@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 import java.util.StringTokenizer;
 
 import net.sourceforge.jFuzzyLogic.FIS;
+import net.sourceforge.jFuzzyLogic.plot.JFuzzyChart;
 import net.sourceforge.jFuzzyLogic.rule.Variable;
 import net.sourceforge.jFuzzyLogic.FunctionBlock;
 
@@ -44,6 +45,8 @@ public class RemoteDriver {
 
         String filename = "remoteDriverManual/src/remoteDriver/driver.fcl";
         FIS fis = FIS.load(filename, true);
+
+        // JFuzzyChart.get().chart(fis);
 
         // Error while loading?
         if( fis == null ) {
