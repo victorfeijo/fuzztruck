@@ -12,7 +12,7 @@ END_VAR
 
 FUZZIFY x
     TERM left   := (0, 1) (0.15, 1) (0.5, 0);
-    TERM center := (0.25, 0) (0.40, 1) (0.60, 1) (0.75, 0);
+    TERM center := (0.25, 0) (0.45, 1) (0.55, 1) (0.75, 0);
     TERM right  := (0.5, 0) (0.85, 1) (1, 1);
 END_FUZZIFY
 
@@ -22,9 +22,9 @@ FUZZIFY y
 END_FUZZIFY
 
 FUZZIFY angle
-    TERM left         := (0, 1) (90, 0);
+    TERM left         := (0, 1) (90, 0) (270, 0) (360, 1);
     TERM bottom       := (45, 0) (90, 1) (135, 0);
-    TERM middle       := (89, 0) (90, 1) (91, 0);
+    TERM middle       := (88, 0) (90, 1) (92, 0);
     TERM bottom_left  := (0, 0) (45, 1) (90, 0);
     TERM bottom_right := (90, 0) (135, 1) (180, 0);
     TERM right        := (100, 0) (180, 1) (270, 0);

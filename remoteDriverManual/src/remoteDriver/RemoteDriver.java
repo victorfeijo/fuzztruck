@@ -46,7 +46,7 @@ public class RemoteDriver {
         String filename = "remoteDriverManual/src/remoteDriver/driver.fcl";
         FIS fis = FIS.load(filename, true);
 
-        // JFuzzyChart.get().chart(fis);
+        JFuzzyChart.get().chart(fis);
 
         // Error while loading?
         if( fis == null ) {
